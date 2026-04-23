@@ -1,90 +1,149 @@
-# 📦 Relatório Final
+📦 Relatório Final
 
-> **Atividade:** Bug Report Profissional + Code Review Guiado
-> **Curso:** Qualidade de Software
-> **Professor:** Prof. Claudio Nunes
+Atividade: Bug Report Profissional + Code Review Guiado
+Curso: Qualidade de Software
+Professor: Prof. Claudio Nunes
 
----
+👥 Identificação da dupla
+Nome completo	RA	GitHub
+Claudio Henrique Alves dos Santos	226659	[@Claudinho013]
+Kaike Ruas Ribeiro	227312	[@usuario2]
 
-## 👥 Identificação da dupla
+Ambiente de testes: Google Chrome (versão recente) no Windows 11, aplicação acessada via GitHub Pages do fork, análise de código realizada pelo editor web do GitHub.
 
-| Nome completo | RA | GitHub |
-|---|---|---|
-| [Nome 1] | [000000] | [@usuario1] |
-| [Nome 2] | [000000] | [@usuario2] |
+📋 Sumário
+Parte A — Bug Reports
+Parte B — Code Review
+Reflexão final
+Declarações
+Parte A — Bug Reports
+🐛 Bug 1 — Sistema permite criar tarefa sem título
 
-**Ambiente de testes:** [Descreva brevemente o setup — ex: Chrome 121 no Windows 11, GitHub Pages do fork, editor web do GitHub]
+Passos para reprodução:
 
----
+Acessar a aplicação TarefaQS
+Deixar o campo título vazio
+Clicar em “Adicionar tarefa”
 
-## 📋 Sumário
+Resultado esperado:
+O sistema deveria impedir o cadastro e exibir mensagem de erro.
 
-- [Parte A — Bug Reports](#parte-a--bug-reports)
-- [Parte B — Code Review](#parte-b--code-review)
-- [Reflexão final](#-reflexão-final)
-- [Declarações](#-declarações)
+Resultado obtido:
+A tarefa é criada sem título.
 
----
+Severidade: Média
+Prioridade: P2
+Categoria: Validação
 
-## Parte A — Bug Reports
+Evidência:
+Campo não validado antes da inserção.
 
-> **Substitua este bloco de citação pelo conteúdo copiado integralmente do seu arquivo `parte-a-bug-report/template-bug-report.md`.**
-> Preservando todos os campos, incluindo a Matriz de Prioridade x Severidade, Passos para Reprodução e Evidências.
-> Mínimo: 3 defeitos.
+🐛 Bug 2 — Contador de tarefas pendentes incorreto
 
----
+Passos para reprodução:
 
-## Parte B — Code Review
+Criar uma tarefa com prioridade alta (5)
+Criar outras tarefas normais
+Observar contador de pendentes
 
-> **Substitua este bloco de citação pelo conteúdo copiado integralmente do seu arquivo `parte-b-code-review/formulario-code-review.md`.**
-> Preservando os rótulos, linhas e sugestões de correção.
-> Mínimo: 6 findings.
+Resultado esperado:
+O número de tarefas pendentes deve ser igual às tarefas não concluídas.
 
-### Resumo
+Resultado obtido:
+Tarefas com prioridade 5 são contadas duas vezes.
 
-| # | Linha | Dimensão | Rótulo | Severidade |
-|---|-------|----------|--------|------------|
-| 1 |       |          |        |            |
-| 2 |       |          |        |            |
-| 3 |       |          |        |            |
-| 4 |       |          |        |            |
-| 5 |       |          |        |            |
-| 6 |       |          |        |            |
+Severidade: Média
+Prioridade: P2
+Categoria: Consistência
 
-### Findings detalhadas
+Evidência:
+Erro na lógica de soma do contador.
 
-> Cole integralmente aqui suas findings copiadas do formulário.
+🐛 Bug 3 — Tarefas não persistem após atualização da página
 
----
+Passos para reprodução:
 
-## 💭 Reflexão final
+Criar tarefas
+Atualizar a página (F5)
 
-> Responda em 1-2 parágrafos. Esta reflexão **é obrigatória**.
+Resultado esperado:
+As tarefas deveriam permanecer salvas.
 
-**Qual dimensão do checklist foi mais difícil aplicar? Por quê?**
+Resultado obtido:
+Todas as tarefas são apagadas.
 
-[Escrevam aqui.]
+Severidade: Alta
+Prioridade: P1
+Categoria: Persistência
 
-**O que vocês fariam diferente se revisassem o código novamente?**
+Evidência:
+Dados armazenados apenas em memória (array local).
 
-[Escrevam aqui.]
+Parte B — Code Review
+Resumo
+#	Linha	Dimensão	Rótulo	Severidade
+1	8-11	Segurança	SQL Injection	Crítica
+2	14	Boas práticas	Falta tratamento de erro	Média
+3	3	Código morto	Constante não utilizada	Baixa
+4	30-95	Complexidade	Alta complexidade ciclomática	Alta
+5	97-140	Manutenibilidade	Código duplicado	Média
+6	25	Legibilidade	Nome de variável ruim	Baixa
+Findings detalhadas
 
----
+1. SQL Injection na função buscarUsuarioPorNome
 
-## 📣 Declarações
+Linha: 8-11
+Problema: Query construída com concatenação direta de string
+Risco: Injeção de código SQL
+Sugestão: Usar query parametrizada
 
+2. Falta de tratamento de erro em funções async
 
-### Uso de IA como parceiro de trabalho
+Linha: várias
+Problema: Não há try/catch
+Risco: aplicação pode quebrar silenciosamente
+Sugestão: Implementar tratamento de erro e logs
 
-- [ ] Não usamos IA nesta atividade.
-- [ ] Usamos IA para esclarecer conceitos teóricos.
-- [ ] Usamos IA para revisar a redação dos bug reports.
-- [ ] Usamos IA para discutir se um achado era ou não um defeito.
-- [ ] Uso específico: [descreva]
+3. Constante TIPOS_VALIDOS não utilizada
 
-### Declaração de autoria
+Linha: 3
+Problema: Declarada mas não aplicada em validação
+Risco: dados inválidos podem ser inseridos
+Sugestão: Validar tipo antes de cadastrar
 
-Declaramos que este relatório é de autoria da dupla, que exploramos
-pessoalmente a aplicação da Parte A e lemos o código da Parte B. As
-findings aqui registradas representam nosso próprio julgamento
-técnico.
+4. Função calcularLimiteEmprestimo com alta complexidade
+
+Linha: 30-95
+Problema: Muitos ifs aninhados
+Risco: difícil manutenção e testes
+Sugestão: Refatorar em funções menores
+
+5. Código duplicado entre duas funções
+
+Linha: 97-140
+Problema: Lógica repetida
+Risco: inconsistência futura
+Sugestão: Criar função reutilizável
+
+6. Nome de variável pouco descritivo (u)
+
+Linha: 25
+Problema: Nome genérico
+Risco: dificulta leitura
+Sugestão: usar nome mais claro (ex: usuarioAtualizado)
+💭 Reflexão final
+
+A dimensão mais difícil de aplicar foi a de segurança, principalmente para identificar vulnerabilidades como SQL Injection sem executar o código. Isso exige um olhar mais crítico e experiência prévia com falhas comuns.
+
+Se fôssemos revisar novamente, dedicaríamos mais tempo à análise de manutenibilidade e arquitetura, buscando identificar padrões ruins e oportunidades de melhoria estrutural além dos erros mais evidentes.
+
+📣 Declarações
+Uso de IA como parceiro de trabalho
+ Não usamos IA nesta atividade.
+ Usamos IA para esclarecer conceitos teóricos.
+ Usamos IA para revisar a redação dos bug reports.
+ Usamos IA para discutir se um achado era ou não um defeito.
+ Uso específico: apoio na identificação e estruturação dos bugs e code review
+Declaração de autoria
+
+Declaramos que este relatório é de autoria da dupla, que exploramos pessoalmente a aplicação da Parte A e lemos o código da Parte B. As findings aqui registradas representam nosso próprio julgamento técnico.
