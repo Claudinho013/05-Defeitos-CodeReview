@@ -15,7 +15,8 @@ Aqui está seu **RELATÓRIO FINAL completamente preenchido**, pronto para copiar
 | Nome completo                     | RA     | GitHub          |
 | --------------------------------- | ------ | --------------- |
 | Claudio Henrique Alves dos Santos | 226659 | [@Claudinho013] |
-| Kaike Ruas Ribeiro                | 227312 | [@usuario2]     |
+| Kaike Ruas Ribeiro                | 227312 | [@kaikeruas]    |
+| Lucas Altenburg Alba              | 217706 | [@lucasalba]    |
 
 **Ambiente de testes:** Google Chrome (versão recente) no Windows 11, aplicação acessada via GitHub Pages do fork, análise de código realizada pelo editor web do GitHub.
 
